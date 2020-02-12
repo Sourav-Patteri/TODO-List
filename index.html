@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO-TODO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" async></script>
+</head>
+<body>
+    <h1>TODO-TODO</h1>
+    <form class="todoForm">
+        <input type="text" name="item" id="item" placeholder="Enter your pending tasks here!">
+    </form>
+    <button type="submit" id="btn">Add to the list</button>
+    <ul>
+        <h2>Pending Tasks</h2> 
+        <div id="list-container">
+           <div class="item-container">
+            <input type="checkbox" class="check">
+            <li>Display Content</li>
+            <button class="delete">X</button>
+           </div>
+           <div class="item-container">
+            <input type="checkbox" class="check">
+            <li>Style Content</li>
+            <button class="delete">X</button>    
+           </div>
+           <div class="item-container">
+            <input type="checkbox" class="check">
+            <li>Add functionality</li>
+            <button class="delete">X</button>
+           </div>
+        </div>
+        <h2>Completed tasks!</h2>
+        <div id="complete-container">
+            <div class="item-container completed">
+                <input type="checkbox" class="check" checked>
+                <li>Get Started</li>
+                <button class="delete">X</button>
+               </div>
+        </div>
+    </ul> 
+
+</body>
+</html>
+
