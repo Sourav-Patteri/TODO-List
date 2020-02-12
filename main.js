@@ -1,6 +1,7 @@
 // JavaScript Document
 let TODOItems = [];
 let completedItems = [];
+const FORM = document.getElementsByTagName('form');
 let btn = document.getElementById('btn');
 let item = document.getElementById('item');
 let listDiv = document.getElementById('list-container');
@@ -8,7 +9,17 @@ let cross = document.getElementsByClassName("delete");
 let listItems = document.querySelectorAll('li');
 let completedList = document.getElementById('complete-container');
 
-btn.addEventListener("click", addtodo);
+btn.addEventListener('click', addtodo);
+FORM[0].addEventListener('submit', function(event){
+  event.preventDefault();
+});
+item.addEventListener('keydown', addlistAfterKeyDown);
+
+function addlistAfterKeyDown(event){
+  if(item.value.length > 0 && event.keyCode === 13){
+    addtodo();
+  }
+}
 
 for (let i = 0; i < listItems.length; i++) {
   listItems[i].addEventListener('click', checkOrUncheck);
@@ -30,11 +41,11 @@ function addtodo(){
     setAttributes(checkbox, {"type": "checkbox", "class": "check"})
     setAttributes(delbtn,{"class": "delete"});
     div.setAttribute("class", "item-container");
-    li.append(item.value);
+    li.append(item.value.trim());
     div.append(checkbox, li, delbtn);
     listDiv.append(div);
     item.value = "";
-    
+
     TODOItems.push(div);
 
     li.previousElementSibling.addEventListener('change', function() {
