@@ -1,79 +1,91 @@
 * {
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale; 
-  box-sizing: border-box; 
-}
-body{
-/* background-color: #FFCA4D; */
-background-image: url(./BG2.jpg);
-background-repeat: no-repeat;
-background-size: cover;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1{
+body {
+  background-image: url(./BG2.jpg);
+  background-size: cover;
+}
+
+h1 {
   text-align: center;
   color: #33CC33;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-h2{
+h2 {
   color: #33CC33;
   text-align: left;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin-left: 150px;
 }
 
 ul {
-    padding: 30px; 
-  }
-  
- li {
+  padding: 30px;
+}
+
+li {
   list-style: none;
   line-height: 1.4;
-  font-family: 'Algerian';
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: 1.2em;
-  cursor:pointer;
-  }
+  cursor: pointer;
+}
 
-#list-container, #complete-container{
+#container {
+  display: flex;
+}
+
+#list-container {
+  min-width: 550px;
+}
+
+#list-container,
+#complete-container {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-left: 8%;
 }
 
-.item-container.completed{
+.item-container.completed {
   background-color: rgb(116, 248, 54);
 }
-.item-container.completed:hover{
-  background-color:#fbff00;
+
+.item-container.completed:hover {
+  background-color: #fbff00;
 }
-.item-container.completed > li{
+
+.item-container.completed>li {
   text-decoration: line-through;
 }
 
-.item-container{
+.item-container {
   text-decoration: none;
   display: flex;
   justify-content: flex-start;
   padding: 5px;
-  flex-flow: row wrap; 
-  margin: 20px;
+  flex-flow: row wrap;
+  margin: 30px 200px 20px 65px;
   border-radius: 20px;
   background-color: #fbff00;
   -webkit-box-shadow: 8px -9px 8px 3px rgb(0, 255, 0);
   -moz-box-shadow: 8px -9px 8px 3px rgb(0, 255, 0, 1);
   box-shadow: 8px -9px 8px 3px rgba(0, 255, 0, 1);
   height: 40px;
+  width: 350px;
 }
-.item-container:hover{
+
+.item-container:hover {
   background-color: rgb(116, 248, 54);
 }
 
-.check{
+.check {
   margin: 6.75px 20px;
-  }
-  
-.delete{ 
-  margin: 6.75px 25px;
- justify-content: flex-end; 
 }
-#item{
+
+#item {
   background: transparent;
   border: none;
   border-bottom: 1px solid #61892F;
@@ -86,64 +98,69 @@ ul {
   font-size: x-large;
 }
 
-*:focus{
+*:focus {
   outline: none;
 }
 
 
-#btn{
+#btn {
   background-color: #222629;
   color: #6B6E70;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  border-radius:20px;
-	border:1px solid #474B4F;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Impact;
-	font-size:17px;
-	padding:10px 50px;
-	text-decoration:none;
-  text-shadow:3px 2px 0px #6B6E70;
+  border-radius: 20px;
+  border: 1px solid #474B4F;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Impact;
+  font-size: 17px;
+  padding: 10px 50px;
+  text-decoration: none;
+  text-shadow: 3px 2px 0px #6B6E70;
   width: 20%;
   margin-left: 40%;
   margin-right: 40%
 }
 
 #btn:hover {
-	background:linear-gradient(to bottom, #474B4F 5%, #6B6E70 100%);
-	background-color:#6B6E70;
-}
-#btn:active {
-	position:relative;
-	top:1px;
+  background: linear-gradient(to bottom, #474B4F 5%, #6B6E70 100%);
+  background-color: #6B6E70;
 }
 
-.delete{
+#btn:active {
+  position: relative;
+  top: 1px;
+}
+
+.delete {
   background-color: #222629;
   color: #6B6E70;
   border-radius: 15px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-	border:1px solid #474B4F;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Impact;
-	font-size:17px;
-	text-decoration:none !important;
-  text-shadow:1px 1px 0px #6B6E70;
-  width: 5%;
+  border: 1px solid #474B4F;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Impact;
+  font-size: 17px;
+  text-decoration: none !important;
+  text-shadow: 1px 1px 0px #6B6E70;
+  width: 8%;
   float: right;
+  margin: 6.75px 25px;
+  justify-content: flex-end;
 }
 
 .delete:hover {
-	background:linear-gradient(to bottom, #ff3e30 5%, #e64334 100%);
-  background-color:#ff1100;
+  background: linear-gradient(to bottom, #ff3e30 5%, #e64334 100%);
+  background-color: #ff1100;
 }
 
-*::placeholder { color: #33CC33; font-style: italic; font-family: Arial, Helvetica, sans-serif;}
+*::placeholder {
+  color: #33CC33;
+  font-style: italic;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
 
-input[type=checkbox]:checked + li {
-  text-decoration: line-through;
-  }
-  
-
+/* input[type=checkbox]:checked + li {
+text-decoration: line-through;
+} */
