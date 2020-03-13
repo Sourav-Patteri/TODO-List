@@ -130,10 +130,10 @@ function beeptwice() {
     beep();
     setTimeout(function() {
         beep();
-    }, 100)
+    }, 100);
     setTimeout(function() {
         beep();
-    }, 200)
+    }, 200);
 }
 
 /* //Was trying to store to the local storage so list doesn't reset on refresh but couldn't complete it on time.
