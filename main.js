@@ -14,14 +14,20 @@ cb.setConsumerKey("n4Uytauvib9rWUp0SMdUmqtjT", "ycBf8koaYogVqU9C94fZSGC3O0OBAygJ
 cb.setToken("720471955-xrbb7Bm6uebBgWzbdjHFbKHL07VIUpm897EgMQiX", "QorUeFUTuGYIVzFBuLILjY3ZEhik7uBZzwdQbH8ujTi8r");
 
 let tweetBtn = document.createElement("button");
+tweetBtn.innerText = "TWEET";
 document.getElementById('container').append(tweetBtn);
 tweetBtn.addEventListener('click', function () {
     let params = {
         status: "Test"
     };
-    cb.__call("statuses_update", params, function(reply, rate, err) {
+    cb.__call("statuses_update", { status: "Whohoo, I just tweeted!" }, function(
+        reply,
+        rate,
+        err
+    ) {
         // ...
     });
+
 });
 
 
