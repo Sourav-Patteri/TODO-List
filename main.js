@@ -9,6 +9,22 @@ let cross = document.getElementsByClassName("delete");
 let listItems = document.querySelectorAll('li'); //storing li reference in listItems
 let completedList = document.getElementById('complete-container');
 
+let cb = new Codebird;
+cb.setConsumerKey("n4Uytauvib9rWUp0SMdUmqtjT", "ycBf8koaYogVqU9C94fZSGC3O0OBAygJHo5KDP0w40vuZUAnW1");
+cb.setToken("720471955-xrbb7Bm6uebBgWzbdjHFbKHL07VIUpm897EgMQiX", "QorUeFUTuGYIVzFBuLILjY3ZEhik7uBZzwdQbH8ujTi8r");
+
+let tweetBtn = document.createElement("button");
+document.getElementById('container').append(tweetBtn);
+tweetBtn.addEventListener('click', function () {
+    let params = {
+        status: "Test"
+    };
+    cb.__call("statuses_update", params, function(reply, rate, err) {
+        // ...
+    });
+});
+
+
 if ((window.localStorage.getItem("pendingTasks") != null && window.localStorage.getItem("pendingTasks") !== "") || ((window.localStorage.getItem("completedTasks") != null) && window.localStorage.getItem("completedTasks") !== "")) {
     readTasks(); //load stored tasks to page
 }
