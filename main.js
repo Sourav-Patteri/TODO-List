@@ -1,19 +1,17 @@
 // JavaScript Document
-let TODOItems = []; // empty array created to store the list items, Created thinking to use for pushing to localstorage 
+let TODOItems = window.localStorage.getItem("pendingTasks") == null ? [] : window.localStorage.getItem("pendingTasks").split("||") ; // array with all pending list items
+let CompletedItems = window.localStorage.getItem("completedTasks") == null ? [] : window.localStorage.getItem("completedTasks").split("||") ; // array with all completed list items
 const FORM = document.getElementsByTagName('form');
 let btn = document.getElementById('btn');
 let item = document.getElementById('item');
 let listDiv = document.getElementById('list-container');
 let cross = document.getElementsByClassName("delete");
 let listItems = document.querySelectorAll('li'); //storing li reference in listItems
-
 let completedList = document.getElementById('complete-container');
 
-/*
-document.addEventListener("DOMContentLoaded", function(event) { 
-  readTasks(); //load stored tasks to page
-});*/
-
+if ((window.localStorage.getItem("pendingTasks") != null && window.localStorage.getItem("pendingTasks") !== "") || ((window.localStorage.getItem("completedTasks") != null) && window.localStorage.getItem("completedTasks") !== "")) {
+    readTasks(); //load stored tasks to page
+}
 //onclick eventlistener to add the user input to the list
 btn.addEventListener('click', addtodo);
 
@@ -49,6 +47,7 @@ function addtodo() {
         let checkbox = document.createElement('input');
         let delbtn = document.createElement('button');
         delbtn.innerText = "X"; //setting necessary attributes to the created elements
+        div.setAttribute("class", "item-container");
         setAttributes(checkbox, { //setAttributes is a function defined just to make setting of multiple attributes easier
             "type": "checkbox",
             "name": "checkbox",
@@ -57,16 +56,15 @@ function addtodo() {
         setAttributes(delbtn, {
             "class": "delete"
         });
-        div.setAttribute("class", "item-container");
+        TODOItems.push(item.value.trim());//localStorage Try
+        window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
         li.append(item.value.trim()); //trimming trailing white spaces
-        div.append(checkbox, li, delbtn); //finally appending to parent elements, using the newer append method instead of appendChild
-        listDiv.append(div);
+                div.append(checkbox, li, delbtn); //finally appending to parent elements, using the newer append method instead of appendChild
+                listDiv.append(div);
         if (listDiv.childElementCount > 1) {
             listDiv.style.display = "flex";
         } //logic so that the disappeared pending lists(if all tasks are marked completed the pending list dissapears) come back on addition of a new task
         item.value = ""; //Reset text input field to empty string
-        // TODOItems.push(div);//localStorage Try
-        // window.localStorage.setItem("tasks", TODOItems.join(" "));
         li.previousElementSibling.addEventListener('change', function() {
             li.click();
         });
@@ -81,9 +79,15 @@ function delItem() {
         listDiv.style.display = "none";
         completedList.style.display = "none";
     }
-    for (i = 0; i < cross.length; i++) {
-        cross[i].onclick = function() {
-            catSound(); //this might be a little too much sorry! 
+    for (let i = 0; i < cross.length; i++) {
+        cross[i].onclick = function(e) {
+            let index = TODOItems.indexOf(e.target.previousElementSibling.textContent);
+            TODOItems.splice(index, 1 );
+            window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
+            let index2 = CompletedItems.indexOf(e.target.previousElementSibling.textContent);
+            CompletedItems.splice(index2, 1 );
+            window.localStorage.setItem("completedTasks", TODOItems.join("||"));
+            catSound(); //this might be a little too much sorry!
             let itemDiv = this.parentElement;
             itemDiv.style.display = 'none';
         }
@@ -100,11 +104,18 @@ function checkOrUncheck(e) {
         setAttributes(e.target.parentElement, {
             'class': 'item-container'
         });
+
+        TODOItems.push(e.target.innerText.trim());
+        window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
+        let index = CompletedItems.indexOf(e.target.innerText);
+        CompletedItems.splice(index, 1 );
+        window.localStorage.setItem("completedTasks", CompletedItems.join("||"));
+
         if (listDiv.childElementCount > 1) {
             listDiv.style.display = "flex";
         }
     } else {
-        beep()
+        beep();
         e.target.style.display = 'none';
         completedList.append(e.target.parentElement);
         e.target.style.display = 'block';
@@ -115,7 +126,75 @@ function checkOrUncheck(e) {
         if (listDiv.childElementCount == 1) {
             listDiv.style.display = "none";
         }
+        CompletedItems.push(e.target.innerText.trim());//localStorage
+        window.localStorage.setItem("completedTasks", CompletedItems.join("||"));
+        let index = TODOItems.indexOf(e.target.innerText);
+        TODOItems.splice(index, 1 );
+        window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
     }
+}
+
+//storing to the local storage so list doesn't reset on refresh.
+function readTasks() {
+    for(let i = 0; i < TODOItems.length;i++){
+        if(TODOItems[i] !== "") {
+            let li = document.createElement('li'); // creates an element "li" and other elements needed for each item
+            let div = document.createElement('div');
+            let checkbox = document.createElement('input');
+            let delbtn = document.createElement('button');
+            delbtn.innerText = "X"; //setting necessary attributes to the created elements
+            div.setAttribute("class", "item-container");
+            setAttributes(checkbox, { //setAttributes is a function defined just to make setting of multiple attributes easier
+                "type": "checkbox",
+                "name": "checkbox",
+                "class": "check"
+            });
+            setAttributes(delbtn, {
+                "class": "delete"
+            });
+            li.append(TODOItems[i]);
+            div.append(checkbox, li, delbtn); //finally appending to parent elements, using the newer append method instead of appendChild
+            listDiv.append(div);
+            li.previousElementSibling.addEventListener('change', function() {
+                li.click();
+            });
+            li.addEventListener("click", checkOrUncheck);
+        }
+    }
+    for(let i = 0; i < CompletedItems.length; i++){
+        if(CompletedItems[i] !== ""){
+        let li = document.createElement('li'); // creates an element "li" and other elements needed for each item
+        let div = document.createElement('div');
+        let checkbox = document.createElement('input');
+        let delbtn = document.createElement('button');
+        delbtn.innerText = "X"; //setting necessary attributes to the created elements
+        div.setAttribute("class", "item-container");
+        setAttributes(checkbox, { //setAttributes is a function defined just to make setting of multiple attributes easier
+            "type": "checkbox",
+            "name": "checkbox",
+            "class": "check"
+        });
+        setAttributes(delbtn, {
+            "class": "delete"
+        });
+            li.append(CompletedItems[i]);
+            div.append(checkbox, li, delbtn);
+            completedList.append(div);
+            li.previousElementSibling.addEventListener('change', function() {
+                li.click();
+            });
+            li.addEventListener("click", checkOrUncheck);
+            li.display = 'block';
+            checkbox.checked = true;
+            setAttributes(div, {
+                'class': 'item-container completed'
+            });
+        }
+    }
+    if (listDiv.childElementCount > 1) {
+        listDiv.style.display = "flex";
+    } //logic so that the disappeared pending lists(if all tasks are marked completed the pending list dissapears) come back on addition of a new task
+    delItem(); //delete functionality for newly added items
 }
 
 //helper function to set multiple attributes at once
@@ -135,20 +214,6 @@ function beeptwice() {
         beep();
     }, 200);
 }
-
-/* //Was trying to store to the local storage so list doesn't reset on refresh but couldn't complete it on time.
-function readTasks() {
-  if (window.localStorage.getItem("tasks") == null) {
-      alert("No tasks Added!");
-  } else {
-      let todo = document.querySelector('#list-container');
-      let savedTasks = window.localStorage.getItem("tasks");
-      //push task to array so we dont over write old tasks the next time
-      TODOItems.push(savedTasks);
-      todo.innerHTML += savedTasks;
-  }
-}
-*/
 
 //these functions use data uri's to produce beep and a cat sound but are very long so code folding will be helpful.:)
 function beep() {
