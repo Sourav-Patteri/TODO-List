@@ -20,6 +20,7 @@ tweetBtn.addEventListener('click', function () {
     let params = {
         status: "Test"
     };
+
     cb.__call("statuses_update", { status: "Whohoo, I just tweeted!" }, function(
         reply,
         rate,
