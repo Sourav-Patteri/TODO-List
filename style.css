@@ -82,7 +82,7 @@ li {
 }
 
 .check {
-  margin: 6.75px 20px;
+  margin: 7px 20px;
 }
 
 #item {
@@ -105,14 +105,12 @@ li {
 
 #btn {
   background-color: #222629;
-  color: #6B6E70;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   border: 1px solid #474B4F;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
-  font-family: Impact;
+  font-family: Impact, serif;
   font-size: 17px;
   padding: 10px 50px;
   text-decoration: none;
@@ -123,8 +121,7 @@ li {
 }
 
 #btn:hover {
-  background: linear-gradient(to bottom, #474B4F 5%, #6B6E70 100%);
-  background-color: #6B6E70;
+  background: #6B6E70 linear-gradient(to bottom, #474B4F 5%, #6B6E70 100%);
 }
 
 #btn:active {
@@ -134,25 +131,22 @@ li {
 
 .delete {
   background-color: #222629;
-  color: #6B6E70;
   border-radius: 15px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   border: 1px solid #474B4F;
   cursor: pointer;
   color: #ffffff;
-  font-family: Impact;
+  font-family: Impact, sans-serif;
   font-size: 17px;
   text-decoration: none !important;
   text-shadow: 1px 1px 0px #6B6E70;
   width: 8%;
   float: right;
-  margin: 6.75px 25px;
+  margin: 7px 25px;
   justify-content: flex-end;
 }
 
 .delete:hover {
-  background: linear-gradient(to bottom, #ff3e30 5%, #e64334 100%);
-  background-color: #ff1100;
+  background: #ff1100 linear-gradient(to bottom, #ff3e30 5%, #e64334 100%);
 }
 
 *::placeholder {
@@ -161,6 +155,15 @@ li {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-/* input[type=checkbox]:checked + li {
-text-decoration: line-through;
-} */
+.tweet {
+  background-color: #222629;
+  cursor: pointer;
+  color: #00daff;
+  font-family: Impact, sans-serif;
+  font-size: 17px;
+  text-decoration: none !important;
+  text-shadow: 1px 1px 0px #6B6E70;
+  width: 20%;
+  float: right;
+  justify-content: flex-end;
+}

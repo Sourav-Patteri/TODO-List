@@ -1,6 +1,6 @@
 // JavaScript Document
-let TODOItems = window.localStorage.getItem("pendingTasks") == null ? [] : window.localStorage.getItem("pendingTasks").split("||") ; // array with all pending list items
-let CompletedItems = window.localStorage.getItem("completedTasks") == null ? [] : window.localStorage.getItem("completedTasks").split("||") ; // array with all completed list items
+let TODOItems = window.localStorage.getItem("pendingTasks") == null ? [] : window.localStorage.getItem("pendingTasks").split("||"); // array with all pending list items
+let CompletedItems = window.localStorage.getItem("completedTasks") == null ? [] : window.localStorage.getItem("completedTasks").split("||"); // array with all completed list items
 const FORM = document.getElementsByTagName('form');
 let btn = document.getElementById('btn');
 let item = document.getElementById('item');
@@ -8,29 +8,11 @@ let listDiv = document.getElementById('list-container');
 let cross = document.getElementsByClassName("delete");
 let listItems = document.querySelectorAll('li'); //storing li reference in listItems
 let completedList = document.getElementById('complete-container');
+let tweetbtns = document.getElementsByClassName('tweet');
 
-let cb = new Codebird;
+let cb = new Codebird();
 cb.setConsumerKey("n4Uytauvib9rWUp0SMdUmqtjT", "ycBf8koaYogVqU9C94fZSGC3O0OBAygJHo5KDP0w40vuZUAnW1");
 cb.setToken("720471955-xrbb7Bm6uebBgWzbdjHFbKHL07VIUpm897EgMQiX", "QorUeFUTuGYIVzFBuLILjY3ZEhik7uBZzwdQbH8ujTi8r");
-
-let tweetBtn = document.createElement("button");
-tweetBtn.innerText = "TWEET";
-document.getElementById('container').append(tweetBtn);
-tweetBtn.addEventListener('click', function () {
-    let params = {
-        status: "Test"
-    };
-
-    cb.__call("statuses_update", { status: "Whohoo, I just tweeted!" }, function(
-        reply,
-        rate,
-        err
-    ) {
-        // ...
-    });
-
-});
-
 
 if ((window.localStorage.getItem("pendingTasks") != null && window.localStorage.getItem("pendingTasks") !== "") || ((window.localStorage.getItem("completedTasks") != null) && window.localStorage.getItem("completedTasks") !== "")) {
     readTasks(); //load stored tasks to page
@@ -38,7 +20,7 @@ if ((window.localStorage.getItem("pendingTasks") != null && window.localStorage.
 //onclick eventlistener to add the user input to the list
 btn.addEventListener('click', addtodo);
 
-//preventing default behaviour of form submits which reloads the page 
+//preventing default behaviour of form submits which reloads the page
 FORM[0].addEventListener('submit', function(event) {
     event.preventDefault();
 });
@@ -55,6 +37,7 @@ for (let i = 0; i < listItems.length; i++) {
 }
 //calling delete function so that the pre-existing list items can be deleted.
 delItem();
+tweet();
 
 //function to enter item if you hit "enter" or "return" key on the keyboard
 function addlistAfterKeyDown(event) {
@@ -79,11 +62,11 @@ function addtodo() {
         setAttributes(delbtn, {
             "class": "delete"
         });
-        TODOItems.push(item.value.trim());//localStorage Try
+        TODOItems.push(item.value.trim()); //localStorage Try
         window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
         li.append(item.value.trim()); //trimming trailing white spaces
-                div.append(checkbox, li, delbtn); //finally appending to parent elements, using the newer append method instead of appendChild
-                listDiv.append(div);
+        div.append(checkbox, li, delbtn); //finally appending to parent elements, using the newer append method instead of appendChild
+        listDiv.append(div);
         if (listDiv.childElementCount > 1) {
             listDiv.style.display = "flex";
         } //logic so that the disappeared pending lists(if all tasks are marked completed the pending list dissapears) come back on addition of a new task
@@ -92,7 +75,7 @@ function addtodo() {
             li.click();
         });
         li.addEventListener("click", checkOrUncheck);
-        //event listener for newly added items 
+        //event listener for newly added items
         delItem(); //delete functionality for newly added items
     }
 }
@@ -105,10 +88,10 @@ function delItem() {
     for (let i = 0; i < cross.length; i++) {
         cross[i].onclick = function(e) {
             let index = TODOItems.indexOf(e.target.previousElementSibling.textContent);
-            TODOItems.splice(index, 1 );
+            TODOItems.splice(index, 1);
             window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
             let index2 = CompletedItems.indexOf(e.target.previousElementSibling.textContent);
-            CompletedItems.splice(index2, 1 );
+            CompletedItems.splice(index2, 1);
             window.localStorage.setItem("completedTasks", TODOItems.join("||"));
             catSound(); //this might be a little too much sorry!
             let itemDiv = this.parentElement;
@@ -117,9 +100,27 @@ function delItem() {
     }
 }
 
-//here's our function to add a line through 
+function tweet() {
+    for (let i = 0; i < tweetbtns.length; i++) {
+        tweetbtns[i].onclick = function(e) {
+            let text = e.target.previousElementSibling.previousElementSibling.textContent;
+            if (confirm('Would you like to tweet - Completed ' + text)) {
+                cb.__call("statuses_update", {
+                    status: text
+                }, function(
+                    reply,
+                    rate,
+                    err
+                ) {});
+            }
+        }
+    }
+
+}
+
+//here's our function to add a line through
 function checkOrUncheck(e) {
-    //User can also uncheck a task. 
+    //User can also uncheck a task.
     if (e.target.parentElement.classList.contains('completed')) {
         beeptwice();
         e.target.previousElementSibling.checked = false;
@@ -127,11 +128,11 @@ function checkOrUncheck(e) {
         setAttributes(e.target.parentElement, {
             'class': 'item-container'
         });
-
+        e.target.nextElementSibling.nextElementSibling.remove();
         TODOItems.push(e.target.innerText.trim());
         window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
         let index = CompletedItems.indexOf(e.target.innerText);
-        CompletedItems.splice(index, 1 );
+        CompletedItems.splice(index, 1);
         window.localStorage.setItem("completedTasks", CompletedItems.join("||"));
 
         if (listDiv.childElementCount > 1) {
@@ -140,6 +141,10 @@ function checkOrUncheck(e) {
     } else {
         beep();
         e.target.style.display = 'none';
+        let tweetbtn = document.createElement('button');
+        tweetbtn.innerText = 'Tweet';
+        tweetbtn.setAttribute('class', 'tweet');
+        e.target.parentElement.append(tweetbtn);
         completedList.append(e.target.parentElement);
         e.target.style.display = 'block';
         e.target.previousElementSibling.checked = true;
@@ -149,18 +154,19 @@ function checkOrUncheck(e) {
         if (listDiv.childElementCount == 1) {
             listDiv.style.display = "none";
         }
-        CompletedItems.push(e.target.innerText.trim());//localStorage
+        CompletedItems.push(e.target.innerText.trim()); //localStorage
         window.localStorage.setItem("completedTasks", CompletedItems.join("||"));
         let index = TODOItems.indexOf(e.target.innerText);
-        TODOItems.splice(index, 1 );
+        TODOItems.splice(index, 1);
         window.localStorage.setItem("pendingTasks", TODOItems.join("||"));
+        tweet();
     }
 }
 
 //storing to the local storage so list doesn't reset on refresh.
 function readTasks() {
-    for(let i = 0; i < TODOItems.length;i++){
-        if(TODOItems[i] !== "") {
+    for (let i = 0; i < TODOItems.length; i++) {
+        if (TODOItems[i] !== "") {
             let li = document.createElement('li'); // creates an element "li" and other elements needed for each item
             let div = document.createElement('div');
             let checkbox = document.createElement('input');
@@ -184,24 +190,27 @@ function readTasks() {
             li.addEventListener("click", checkOrUncheck);
         }
     }
-    for(let i = 0; i < CompletedItems.length; i++){
-        if(CompletedItems[i] !== ""){
-        let li = document.createElement('li'); // creates an element "li" and other elements needed for each item
-        let div = document.createElement('div');
-        let checkbox = document.createElement('input');
-        let delbtn = document.createElement('button');
-        delbtn.innerText = "X"; //setting necessary attributes to the created elements
-        div.setAttribute("class", "item-container");
-        setAttributes(checkbox, { //setAttributes is a function defined just to make setting of multiple attributes easier
-            "type": "checkbox",
-            "name": "checkbox",
-            "class": "check"
-        });
-        setAttributes(delbtn, {
-            "class": "delete"
-        });
+    for (let i = 0; i < CompletedItems.length; i++) {
+        if (CompletedItems[i] !== "") {
+            let li = document.createElement('li'); // creates an element "li" and other elements needed for each item
+            let div = document.createElement('div');
+            let checkbox = document.createElement('input');
+            let delbtn = document.createElement('button');
+            let tweetbtn = document.createElement('button');
+            delbtn.innerText = "X"; //setting necessary attributes to the created elements
+            tweetbtn.innerText = 'Tweet';
+            tweetbtn.setAttribute('class', 'tweet');
+            div.setAttribute("class", "item-container");
+            setAttributes(checkbox, { //setAttributes is a function defined just to make setting of multiple attributes easier
+                "type": "checkbox",
+                "name": "checkbox",
+                "class": "check"
+            });
+            setAttributes(delbtn, {
+                "class": "delete"
+            });
             li.append(CompletedItems[i]);
-            div.append(checkbox, li, delbtn);
+            div.append(checkbox, li, delbtn, tweetbtn);
             completedList.append(div);
             li.previousElementSibling.addEventListener('change', function() {
                 li.click();
