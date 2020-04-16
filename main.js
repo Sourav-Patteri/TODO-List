@@ -106,7 +106,7 @@ function tweet() {
             let text = e.target.previousElementSibling.previousElementSibling.textContent;
             if (confirm('Would you like to tweet - Completed ' + text)) {
                 cb.__call("statuses_update", {
-                    status: text
+                    status:"Completed "+text
                 }, function(
                     reply,
                     rate,
